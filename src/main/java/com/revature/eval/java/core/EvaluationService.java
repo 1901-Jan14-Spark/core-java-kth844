@@ -2,6 +2,7 @@ package com.revature.eval.java.core;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.Period;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -831,30 +832,30 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		Temporal result = given;
-		LocalDateTime d; 
-		Duration seconds = Duration.ofSeconds(1000000000);
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		int hour = 0;
+		int minute = 0;
+		int second = 0;
+
 		if (given.isSupported(ChronoField.SECOND_OF_MINUTE) == true) {
-			Duration second = Duration.ofSeconds((int)1000000000);
-			result = given.plus(second);
+			second = given.get(ChronoField.SECOND_OF_MINUTE);
+		}
+		if (given.isSupported(ChronoField.MINUTE_OF_HOUR) == true) {
+			minute = given.get(ChronoField.MINUTE_OF_HOUR);
 
 		}
-		else if (given.isSupported(ChronoField.MINUTE_OF_HOUR) == true) {
-			Duration minutes = Duration.ofMinutes(seconds.toHours());
-			result = given.plus(minutes);
-
+		if (given.isSupported(ChronoField.HOUR_OF_DAY) == true) {
+			hour = given.get(ChronoField.HOUR_OF_DAY);
 		}
-		else if (given.isSupported(ChronoField.HOUR_OF_DAY) == true) {
-			Duration hours = Duration.ofHours(seconds.toHours());
-			result = given.plus(hours);
+		if (given.isSupported(ChronoField.DAY_OF_MONTH) == true) {
+			day = given.get(ChronoField.DAY_OF_MONTH);
+			month = given.get(ChronoField.MONTH_OF_YEAR);
+			year = given.get(ChronoField.YEAR);
 		}
-		else if (given.isSupported(ChronoField.DAY_OF_WEEK) == true) {
-			Duration days = Duration.ofDays(seconds.toDays());
-			System.out.println(days.toDays());
-			result = given.plus(1000000000/(60*60*24),ChronoUnit.SECONDS);
-		}
-
-		return result;
+		LocalDateTime result = LocalDateTime.of(year, Month.of(month), day, hour, minute, second);
+		return result.plus(1000000000, ChronoUnit.SECONDS);
 	}
 
 	/**
