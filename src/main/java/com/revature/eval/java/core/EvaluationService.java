@@ -837,7 +837,7 @@ public class EvaluationService {
 		if (given.isSupported(ChronoField.SECOND_OF_MINUTE) == true) {
 			Duration second = Duration.ofSeconds((int)1000000000);
 			result = given.plus(second);
-			d = LocalDateTime.of(given);
+
 		}
 		else if (given.isSupported(ChronoField.MINUTE_OF_HOUR) == true) {
 			Duration minutes = Duration.ofMinutes(seconds.toHours());
