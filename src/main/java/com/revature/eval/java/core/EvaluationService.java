@@ -872,8 +872,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+
+		HashSet<Integer> uniqueSet = new HashSet<Integer>();
+		for (Integer num : set) {
+			for (Integer j = num; j < i; j++) {
+				if (j % num == 0) {
+					uniqueSet.add(j);
+				}
+			}
+		}
+		int sum = 0;
+		for (Integer num : uniqueSet) {
+			sum += num;
+		}
+		return sum;
 	}
 
 	/**
@@ -913,8 +925,29 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		if(string.replaceAll("[^0-9 ]", "").length() != string.length() || string.length() < 2) {
+			return false;
+		}
+		StringBuilder temp = new StringBuilder(string.trim().replaceAll("[^0-9]", ""));
+		if (temp.charAt(0) == '1') {
+			temp = temp.deleteCharAt(0);
+		}
+		temp.reverse();
+		char[] numChar = temp.toString().toCharArray();
+		int sum = 0;
+		int tempInt;
+		for (int i = 0; i < numChar.length; i++) {
+			if (i % 2 != 0) {
+				tempInt = Integer.parseInt(((Character) numChar[i]).toString()) * 2;
+				if (tempInt > 9) {
+					tempInt -= 9;
+				}
+			} else {
+				tempInt = Integer.parseInt(((Character) numChar[i]).toString());
+			}
+			sum += tempInt;
+		}
+		return sum % 10 == 0 ? true : false;
 	}
 
 	/**
@@ -945,8 +978,25 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] strArr = string.replaceAll("[^0-9a-z -]", "").split("[ ]");
+		int result = 0;
+		for(int i = 0;i<strArr.length;i++) {
+			switch(strArr[i]) {
+			case "multiplied":
+				result = Integer.parseInt(strArr[i-1]) * Integer.parseInt(strArr[i+2]);
+				break;
+			case "divided":
+				result = Integer.parseInt(strArr[i-1]) / Integer.parseInt(strArr[i+2]);
+				break;
+			case "plus":
+				result = Integer.parseInt(strArr[i-1]) + Integer.parseInt(strArr[i+1]);
+				break;
+			case "minus":
+				result = Integer.parseInt(strArr[i-1]) - Integer.parseInt(strArr[i+1]);
+				break;
+			}
+		}
+		return result;
 	}
 
 }
